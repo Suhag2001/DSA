@@ -1,6 +1,8 @@
 package com.graph.adjacencyLIst;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
 //array of arraylist which called Adjacency List graph which
 // this is undirected unweighted graph
@@ -33,6 +35,54 @@ public class AdjacecyList {
         graph[3].add(new Edge(3,2,9));
 
     }
+    public  static  void bfs(ArrayList<Edge> graph[]){
+        Queue<Integer> q = new ArrayDeque<>();
+        q.add(0);
+        boolean[] visited = new boolean[graph.length];
+
+        while (!q.isEmpty()){
+            int curr = q.poll();
+            if(visited[curr]== false){
+                System.out.print(curr + " ");
+                visited[curr] = true;
+                for(int i = 0; i < graph[curr].size(); i++){
+                    Edge e = graph[curr].get(i);
+                    q.add(e.dst);
+
+                }
+            }
+
+        }
+
+    }
+
+    public static void dfs(ArrayList<Edge> graph[], boolean visited[] , int curr){
+        System.out.print(curr+" ");
+        visited[curr] =true;
+        for (int i = 0 ; i<graph[curr].size();i++){
+            Edge e = graph[curr].get(i);
+            if(visited[e.dst]==false){
+                dfs(graph,visited, e.dst);
+            }
+        }
+
+    }
+
+    public static void printAllPath(ArrayList<Edge> graph[],boolean vis[],int curr, String path, int tar){
+        if(curr==tar){
+            System.out.println(path );
+            return;
+        }
+        for(int i = 0 ; i< graph[curr].size(); i++){
+            Edge e = graph[curr].get(i);
+            if(!vis[e.dst]){
+                vis[curr] = true;
+                printAllPath(graph, vis, e.dst, path+e.dst, tar);
+                vis[curr]=false;
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
         ArrayList<Edge> graph[] = new ArrayList[4];
@@ -49,6 +99,16 @@ public class AdjacecyList {
                  System.out.println("This is for "+e.src + " = " + "destination "+ e.dst + " and "+ "weight "+ e.wt);
              }
          }
+
+        System.out.println("Graph Traversal by BFS");
+         bfs(graph);
+        boolean[] visited = new boolean[graph.length];
+        System.out.println();
+        System.out.println("Graph Traversal by DFS");
+        dfs(graph, visited, 0);
+        System.out.println();
+        System.out.println("All paths visited");
+        printAllPath(graph,new boolean[graph.length],0,"",3);
 
     }
 }
