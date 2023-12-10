@@ -83,6 +83,25 @@ public class AdjacecyList {
         }
     }
 
+    public static boolean isCycleDirected(ArrayList<Edge> graph[],boolean vis[],int curr,boolean rec[]){
+        vis[curr] =true;
+        rec[curr] = true;
+
+        for(int i=0;i<graph[curr].size();i++){
+            Edge e = graph[curr].get(i);
+            if(rec[e.dst]){//cycle
+                return  true;
+            }else if(!vis[e.dst]){
+                if (isCycleDirected(graph, vis, e.dst, rec)){
+                    return true;
+                }
+            }
+        }
+        rec[curr]=false;
+        return false;
+    }
+
+
     public static void main(String[] args) {
 
         ArrayList<Edge> graph[] = new ArrayList[4];
@@ -109,6 +128,7 @@ public class AdjacecyList {
         System.out.println();
         System.out.println("All paths visited");
         printAllPath(graph,new boolean[graph.length],0,"",3);
-
+        System.out.println("is cyclic graph or not");
+        System.out.println(isCycleDirected(graph,new boolean[graph.length],0, new  boolean[graph.length]));
     }
 }
