@@ -33,7 +33,6 @@ public class AdjacecyList {
 
         graph[3].add(new Edge(3,1,6));
         graph[3].add(new Edge(3,2,9));
-
     }
     public  static  void bfs(ArrayList<Edge> graph[]){
         Queue<Integer> q = new ArrayDeque<>();
